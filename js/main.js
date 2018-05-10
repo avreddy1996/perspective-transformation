@@ -22,8 +22,7 @@ var mouse={
     show: function() { return '(' + this.x + ', ' + this.y + ')'; }
 };
 function updateTransform(x,y) {
-    var style= ("translate("+ 5*x +"px, "+  5*y +"px) ");
-    console.log('image update triggered');
+    var style= ("translate("+ 5*x +"px, "+  -15*y +"px) ");
     image.style.transform = style;
     image.style.webkitTransform = style;
     image.style.mozTransform = style;
@@ -36,11 +35,9 @@ function getMousePositionX(event) {
 function onMouseEnterHandler(event){
     /*update(event);*/
     mouse.setOrigin(container);
-    console.log('Mouse Entered');
 }
 function onMouseLeaveHandler(event){
     image.style = '';
-    console.log('Mouse Left');
 }
 function onMouseMoveHandler(event){
   if(isTimeToUpdate()){
