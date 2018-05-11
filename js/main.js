@@ -149,7 +149,7 @@ var dotscanva = document.getElementById('randomDots');
 var dotctx = dotscanva.getContext('2d');
 dotscanva.width = window.innerWidth;
 dotscanva.height = window.innerHeight;
-var dotsNum = 200;
+var dotsNum = 500;
 var dots = [];
 var width = dotscanva.width;
 var height = dotscanva.height;
@@ -160,8 +160,8 @@ for(var i=0 ; i<dotsNum ; i++){
     dots.push({
         x : Math.random() * width,
         y : Math.random() * height,
-        vx : Math.random() * 8-5,
-        vy : Math.random() * 8-5,
+        vx : Math.random(),
+        vy : Math.random(),
         radius: Math.floor(Math.random()*5),
         color: "rgb("+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+")"
     })
