@@ -1,3 +1,28 @@
+/*var body = document.body;
+var scrollCount = 0;
+var scrollInterval = 100;
+isTimeToUpdateScroll = function(){
+    return scrollCount++ % scrollInterval === 0;
+};
+var scrollPosition = 0;
+function isScrollBottom(presentscroll){
+    temp = scrollPosition;
+    scrollPosition = presentscroll;
+    return presentscroll>temp;
+}
+body.onscroll = function () {
+    var x = window.pageYOffset;
+    console.log(x);
+    var winHeight = window.innerHeight;
+    if(isTimeToUpdateScroll()) {
+        var scroll = Math.floor(x / winHeight);
+        if(isScrollBottom(x)){
+            console.log('bottom');
+            scroll +=1;
+        }
+        window.scrollTo(0, scroll * winHeight);
+    }
+};*/
 var container = document.getElementById('container');
 var image = document.getElementById('base-image');
 var count = 0;
@@ -119,3 +144,106 @@ function drawHand(ctx, deg, length, width) {
 }
 setInterval(drawClock, 1000);
 /*========== Script for Canvas Clock ends ======*/
+/*========== Script for Random Dots ============*/
+var dotscanva = document.getElementById('randomDots');
+var dotctx = dotscanva.getContext('2d');
+dotscanva.width = window.innerWidth;
+dotscanva.height = window.innerHeight;
+var dotsNum = 200;
+var dots = [];
+var width = dotscanva.width;
+var height = dotscanva.height;
+var bounce = -1;
+var dotsLength = 70;
+var mousePosition = {};
+for(var i=0 ; i<dotsNum ; i++){
+    dots.push({
+        x : Math.random() * width,
+        y : Math.random() * height,
+        vx : Math.random() * 8-5,
+        vy : Math.random() * 8-5,
+        radius: Math.floor(Math.random()*5),
+        color: "rgb("+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+")"
+    })
+}
+function draw() {
+    dotctx.clearRect(0,0,width,height);
+    var j,dot;
+    for(j=0;j<dotsNum;j++){
+        dot = dots[j];
+        dotctx.beginPath();
+        dotctx.arc(dot.x,dot.y,dot.radius,0,2*Math.PI,false);
+        dotctx.fillStyle = dot.color;
+        dotctx.fill();
+    }
+    lineDots(mousePosition);
+}
+function updateDots(){
+    var i,dot;
+    for( i=0 ; i< dotsNum ; i++){
+        dot = dots[i];
+        dot.x += dot.vx;
+        dot.y += dot.vy;
+        /*getCollision(dot);*/
+        if(dot.x >width){
+            dot.x = width;
+            dot.vx *= bounce;
+        }else if(dot.x <0){
+            dot.x = 0;
+            dot.vx *= bounce;
+        }
+
+        if(dot.y > height){
+            dot.y = height;
+            dot.vy *= bounce;
+        }else if(dot.y<0){
+            dot.y = 0;
+            dot.vy *= bounce;
+        }
+    }
+
+}
+/*function getCollision(dot) {
+    for(var i=0;i<dotsNum;i++){
+        var centerDistance = dot.radius + dots[i].radius;
+        var cooordinateDistance = Math.sqrt(((dot.x-dots[i].x)*(dot.x - dots[i].x))+((dot.y - dots[i].y)*(dot.y - dots[i].y)));
+        if(centerDistance === cooordinateDistance){
+            dots[i].vx *= bounce;
+            dots[i].vy *= bounce;
+        }
+    }
+}*/
+function lineDots(mousePosition) {
+    if(mousePosition.x>0 && mousePosition.y>0) {
+        var mouseX = mousePosition.x;
+        var mouseY = mousePosition.y;
+        for (var i = 0; i < dotsNum; i++) {
+            var dot = dots[i];
+            if (Math.abs(mouseX - dot.x) < dotsLength && Math.abs(mouseY - dot.y) < dotsLength) {
+                dotctx.beginPath();
+                dotctx.moveTo(mouseX, mouseY);
+                dotctx.lineTo(dot.x, dot.y);
+                dotctx.strokeStyle = dot.color;
+                dotctx.stroke();
+                dotctx.closePath();
+            }
+        }
+    }
+}
+function updateMouse(e){
+    mousePosition.x = e.clientX+6;
+    mousePosition.y = e.clientY+12;
+}
+dotscanva.onmousemove = function(){
+    updateMouse(event);
+};
+dotscanva.onmouseleave = function(){
+    mousePosition.x = 0;
+    mousePosition.y = 0;
+};
+setInterval(function() {
+    updateDots();
+    draw();
+}, 1000/60);
+
+/*========== Script for Random Dots Ends =======*/
