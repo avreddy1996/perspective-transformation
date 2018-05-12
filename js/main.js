@@ -162,7 +162,7 @@ for(var i=0 ; i<dotsNum ; i++){
         y : Math.random() * height,
         vx : Math.random(),
         vy : Math.random(),
-        radius: Math.floor(Math.random()*5),
+        radius: 1 + Math.floor(Math.random()*4),
         color: "rgb("+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+")"
     })
 }
@@ -231,8 +231,8 @@ function lineDots(mousePosition) {
     }
 }
 function updateMouse(e){
-    mousePosition.x = e.clientX+6;
-    mousePosition.y = e.clientY+12;
+    mousePosition.x = e.clientX;
+    mousePosition.y = e.clientY;
 }
 dotscanva.onmousemove = function(){
     updateMouse(event);
