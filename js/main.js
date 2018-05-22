@@ -147,7 +147,7 @@ setInterval(drawClock, 1000);
 /*========== Script for Random Dots ============*/
 var dotscanva = document.getElementById('randomDots');
 var dotctx = dotscanva.getContext('2d');
-dotscanva.width = window.innerWidth;
+dotscanva.width = dotscanva.parentElement.clientWidth;
 dotscanva.height = window.innerHeight;
 var dotsNum = 500;
 var dots = [];
@@ -160,8 +160,8 @@ for(var i=0 ; i<dotsNum ; i++){
     dots.push({
         x : Math.random() * width,
         y : Math.random() * height,
-        vx : Math.random(),
-        vy : Math.random(),
+        vx : Math.random()>.5?Math.random():Math.random()*bounce,
+        vy : Math.random()>.5?Math.random():Math.random()*bounce,
         radius: 1 + Math.floor(Math.random()*4),
         color: "rgb("+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+")"
     })
@@ -241,9 +241,10 @@ dotscanva.onmouseleave = function(){
     mousePosition.x = 0;
     mousePosition.y = 0;
 };
-setInterval(function() {
+function animate() {
     updateDots();
     draw();
-}, 1000/60);
-
+    window.requestAnimationFrame(animate);
+}
+window.requestAnimationFrame(animate);
 /*========== Script for Random Dots Ends =======*/
