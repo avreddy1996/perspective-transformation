@@ -234,9 +234,9 @@ function updateMouse(e){
     mousePosition.x = e.clientX;
     mousePosition.y = e.clientY;
 }
-dotscanva.onmousemove = function(){
+dotscanva.addEventListener("mousemove", function (event) {
     updateMouse(event);
-};
+});
 dotscanva.onmouseleave = function(){
     mousePosition.x = 0;
     mousePosition.y = 0;
